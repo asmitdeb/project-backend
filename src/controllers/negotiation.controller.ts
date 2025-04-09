@@ -101,6 +101,33 @@ export const completeNegotiation = async (req: Request, res: Response) => {
       where: { currentTermsId: req.params.currentTermsId },
       data: { ongoing: false, status: req.body.status },
     });
+    if(req.body.status === "ACCEPTED"){
+      const currentTerms = await prisma.currentTerms.findUnique({
+        where: { id: req.params.currentTermsId }
+      });
+      // const user = await prisma.user.findUnique({ where: { id: negotiation.createdById } });
+      // const otherUser = await prisma.user.findUnique({ where: { id: negotiation.offeredToId } });
+      // console.log("user: ", user);
+      // console.log("otherUser: ", otherUser);
+      const otherUser = await prisma.negotiation.findUnique({
+        where: { currentTermsId: req.params.currentTermsId },
+      })
+      let otherUserId = otherUser?.offeredToId;
+      if(req.user.id === otherUserId) otherUserId = otherUser?.createdById;
+      const contract = await prisma.contract.create({
+        data: {
+          createdBy: otherUser?.createdById,
+          createdFor: otherUser?.offeredToId,
+          cropName: currentTerms!.cropName,
+          quantity: currentTerms!.quantity,
+          price: currentTerms!.price,
+          harvestTime: currentTerms!.harvestTime,
+          location: currentTerms!.location,
+          paymentTerms: currentTerms!.paymentTerms,
+        }
+      })
+      // send email to both users
+    }
     res.status(200).json({ negotiation });
   } catch (error) {
     console.log("Error completing negotiation:", error);
