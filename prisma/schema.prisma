@@ -81,7 +81,7 @@ model User {
   offers           Offer[]
   offerCreator     Negotiation[]       @relation("offerCreator")
   offerOfferedTo   Negotiation[]       @relation("offerOfferedTo")
-  contracts        Contract[]
+  // contracts        Contract[]
   notifications    Notification[]
   createdAt        DateTime            @default(now())
   updatedAt        DateTime            @default(now()) @updatedAt
@@ -131,7 +131,6 @@ model Offer {
   paymentTerms  String
   createdBy     String
   createdByUser User       @relation(fields: [createdBy], references: [id], onDelete: Cascade)
-  contracts     Contract[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 }
@@ -164,6 +163,7 @@ model CurrentTerms {
   offerDuration Int
   paymentTerms  String
   createdBy     String
+  // secondParty   String?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   logistics     String        @default("Arranged by buyer")
@@ -172,13 +172,22 @@ model CurrentTerms {
 
 model Contract {
   id        String         @id @default(uuid())
+  cropName      String?
+  description   String?
+  cropType      CropType?
+  price         Float?
+  quantity      Int?
+  harvestTime   DateTime?
+  location      String?
+  offerDuration Int?
+  paymentTerms  String?
+  createdBy     String?
+  createdFor    String?
   status    ContractStatus @default(PENDING)
-  offerId   String
-  offer     Offer          @relation(fields: [offerId], references: [id], onDelete: Cascade)
-  buyerId   String
-  buyer     User           @relation(fields: [buyerId], references: [id], onDelete: Cascade)
-  payments  Payment[]
-  createdAt DateTime       @default(now())
+  // buyerId   String
+  // buyer     User           @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  // payments  Payment[]
+  createdAt DateTime      @default(now())
   updatedAt DateTime       @updatedAt
 }
 
@@ -187,7 +196,7 @@ model Payment {
   amount     Float
   status     PaymentStatus @default(PENDING)
   contractId String
-  contract   Contract      @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  // contract   Contract      @relation(fields: [contractId], references: [id], onDelete: Cascade)
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 }
@@ -210,3 +219,4 @@ model Notification {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
