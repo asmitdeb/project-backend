@@ -50,7 +50,8 @@ export const registerUser = async (req: Request, res: Response) => {
     res.cookie("Authorization", token, {
       httpOnly: true,
       secure: false,
-      domain: "localhost",
+      // domain: "localhost",
+      domain: "project-backend-ji25.onrender.com",
       sameSite: "none",
       path: "/",
     }); //secure should be true?
@@ -93,7 +94,8 @@ export const login = async (req: Request, res: Response) => {
   res.cookie("Authorization", token, {
     httpOnly: true,
     secure: false,
-    domain: "localhost",
+    // domain: "localhost",
+    domain: "project-backend-ji25.onrender.com",
     sameSite: "none",
     path: "/",
   }); //secure should be true?
@@ -104,7 +106,8 @@ export const logout = async (req: Request, res: Response) => {
   res.clearCookie("Authorization", {
     httpOnly: true,
     secure: false,
-    domain: "localhost",
+    // domain: "localhost",
+    domain: "project-backend-ji25.onrender.com",
     sameSite: "none",
     path: "/",
   });
