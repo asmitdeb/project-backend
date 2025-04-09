@@ -51,6 +51,7 @@ export const registerUser = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: false,
       domain: "localhost",
+      sameSite: "none",
       path: "/",
     }); //secure should be true?
     res.status(201).json({ message: "User created successfully!" });
@@ -93,6 +94,7 @@ export const login = async (req: Request, res: Response) => {
     httpOnly: true,
     secure: false,
     domain: "localhost",
+    sameSite: "none",
     path: "/",
   }); //secure should be true?
   res.status(200).json({ message: "Login successfully!" });
@@ -103,6 +105,7 @@ export const logout = async (req: Request, res: Response) => {
     httpOnly: true,
     secure: false,
     domain: "localhost",
+    sameSite: "none",
     path: "/",
   });
   res.status(200).json({ message: "Logout successfully!" });
