@@ -49,7 +49,8 @@ export const registerUser = async (req: Request, res: Response) => {
     const token = jwt.sign({ sub: user.id }, secrets.jwtSecret); //remove the expiration date
     res.cookie("Authorization", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
+      // secure: false,
       // domain: "localhost",
       domain: "project-backend-ji25.onrender.com",
       sameSite: "none",
@@ -93,7 +94,8 @@ export const login = async (req: Request, res: Response) => {
   const token = jwt.sign({ sub: user.id }, secrets.jwtSecret);
   res.cookie("Authorization", token, {
     httpOnly: true,
-    secure: false,
+    secure: true,
+    // secure: false,
     // domain: "localhost",
     domain: "project-backend-ji25.onrender.com",
     sameSite: "none",
@@ -105,7 +107,8 @@ export const login = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
   res.clearCookie("Authorization", {
     httpOnly: true,
-    secure: false,
+    secure: true,
+    // secure: false,
     // domain: "localhost",
     domain: "project-backend-ji25.onrender.com",
     sameSite: "none",
